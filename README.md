@@ -9,6 +9,7 @@ yarn && yarn start
 yarn lint
 ```
 Есть мидлвары для обработки ошибок и для 404
+
 Методы:
 + GET api/events/?type= для сортировки по типу (пока что только по одному типу)
 + GET api/events?page=1&pageSize=10 для пагинации (по-умолчанию page=1, pageSize=10)
