@@ -18,15 +18,26 @@ const getPaginatedItems = (items, page = 1, pageSize = 10) => {
   }
 }
 
+const parseTypes = typesStr => {
+  let types = []
+  if (!typesStr.includes(':')) types.push(typesStr)
+  else types = typesStr.split(':')
+  if (types.some(i => !currectTypes.includes(i))) {
+    const err = new Error('Incorrect type')
+    err.statusCode = 400
+    throw err
+  }
+  return types
+}
+
 const eventsHandler = (req, res, next) => {
   try {
     const { type, page = 1, pageSize = 10 } = req.query
     const data = JSON.parse(fs.readFileSync('./events.json', 'utf8'))
     let events = data.events
     if (type) {
-      if (!currectTypes.includes(type))
-        return res.status(400).send('incorrect type')
-      events = filter(events, { type })
+      const types = parseTypes(type)
+      events = filter(events, i => types.includes(i.type))
     }
     res.json(getPaginatedItems(events, page, pageSize))
   } catch (err) {
