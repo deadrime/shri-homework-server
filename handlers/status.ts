@@ -1,7 +1,9 @@
-const moment = require('moment')
+import moment from 'moment'
+import {Request, Response, NextFunction} from 'express'
+
 const serverStartedTime = moment()
 
-const statusHandler = (req, res, next) => {
+const statusHandler = (req: Request, res: Response, next: NextFunction) => {
   res.json({
     started: serverStartedTime.fromNow(),
     startedAt: serverStartedTime.format('hh:mm:ss'),
